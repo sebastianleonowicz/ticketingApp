@@ -12,15 +12,14 @@ import './Components/List/List.css'
 class App extends Component {
   state = {
     displayedComponent: 'Home',
-    currentTicket: {
-      title: 'none',
-      description: 'none',
-      accCriteria: 'none'
-    }
+    title: null,
+    description: null,
+    accCriteria: null,
+    deadline: null
   }
 
   whichComponentDisplayed = (string) => {
-    console.log('changing state from: ',this.state.displayedComponent);
+    console.log('changing state from: ', this.state.displayedComponent);
     this.setState({
     displayedComponent: string
     }, () => {
@@ -28,8 +27,15 @@ class App extends Component {
     })
   }
 
-  createTicket = () => {
-    console.log(this.state.currentTicket);
+  updateTicketData = (event, ticketKey) => {
+    console.log(event.target.value);
+    this.setState({
+        [ticketKey]: event.target.value
+    })
+  }
+
+  createTicket = (event) => {
+    console.log(this.state);
   }
 
   render() {
@@ -45,7 +51,12 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'Form') {
       form = (
-        <Form click={this.createTicket}></Form>
+        <Form clickCreate={this.createTicket}
+              clickUpdateTitle={(e) => this.updateTicketData(e, 'title')}
+              clickUpdateDescription={(e) => this.updateTicketData(e, 'description')}
+              clickUpdateAccCriteria={(e) => this.updateTicketData(e, 'accCriteria')}
+              clickUpdateDeadline={(e) => this.updateTicketData(e, 'deadline')}
+        ></Form>
       )
     }
 
