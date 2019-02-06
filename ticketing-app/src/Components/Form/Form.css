@@ -1,0 +1,7 @@
+.form {
+    font-size: 2rem;
+}
+
+.form > input {
+    display: block;
+}

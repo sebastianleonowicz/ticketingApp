@@ -11,7 +11,12 @@ import './Components/List/List.css'
 
 class App extends Component {
   state = {
-    displayedComponent: 'Home'
+    displayedComponent: 'Home',
+    currentTicket: {
+      title: 'none',
+      description: 'none',
+      accCriteria: 'none'
+    }
   }
 
   whichComponentDisplayed = (string) => {
@@ -21,6 +26,10 @@ class App extends Component {
     }, () => {
       console.log('changed state to: ', this.state.displayedComponent);
     })
+  }
+
+  createTicket = () => {
+    console.log(this.state.currentTicket);
   }
 
   render() {
@@ -36,7 +45,7 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'Form') {
       form = (
-        <Form></Form>
+        <Form click={this.createTicket}></Form>
       )
     }
 
