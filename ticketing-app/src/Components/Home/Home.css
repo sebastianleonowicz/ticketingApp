@@ -1,0 +1,12 @@
+.homeComponent {
+    margin: 3rem 0 0 4rem;
+    flex: 8;
+}
+
+.homeHeader {
+    font-size: 3rem
+}
+
+.homeParagraph {
+    font-size: 2rem;
+}
