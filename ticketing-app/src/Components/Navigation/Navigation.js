@@ -4,7 +4,7 @@ const navigation = (props) => {
     return   <nav className="navigation">
                 <ul>
                 <li>
-                    <div>
+                    <div onClick={props.clickHome}>
                         <svg version="1.1" width="32" height="32" viewBox="0 0 32 32">
                             <path d="M32 19l-6-6v-9h-4v5l-6-6-16 16v1h4v10h10v-6h4v6h10v-10h4z"></path>
                         </svg>
@@ -14,13 +14,24 @@ const navigation = (props) => {
                     </div>  
                 </li>
                 <li>
-                    <div onClick={props.click}>
+                    <div onClick={props.clickForm}>
                         <svg version="1.1" width="32" height="32" viewBox="0 0 32 32">
                         <title>pencil</title>
                         <path d="M27 0c2.761 0 5 2.239 5 5 0 1.126-0.372 2.164-1 3l-2 2-7-7 2-2c0.836-0.628 1.874-1 3-1zM2 23l-2 9 9-2 18.5-18.5-7-7-18.5 18.5zM22.362 11.362l-14 14-1.724-1.724 14-14 1.724 1.724z"></path>
                         </svg>                    
                         <span>
-                        Create Ticket
+                            Create Ticket
+                        </span>  
+                    </div>
+                </li>
+                <li>
+                    <div onClick={props.clickList}>
+                        <svg version="1.1" width="32" height="32" viewBox="0 0 32 32">
+                        <title>pencil</title>
+                        <path d="M27 0c2.761 0 5 2.239 5 5 0 1.126-0.372 2.164-1 3l-2 2-7-7 2-2c0.836-0.628 1.874-1 3-1zM2 23l-2 9 9-2 18.5-18.5-7-7-18.5 18.5zM22.362 11.362l-14 14-1.724-1.724 14-14 1.724 1.724z"></path>
+                        </svg>                    
+                        <span>
+                            Show List
                         </span>  
                     </div>
                 </li>

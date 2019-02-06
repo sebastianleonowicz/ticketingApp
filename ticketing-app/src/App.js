@@ -4,30 +4,58 @@ import Home from './Components/Home/Home'
 import './Components/Home/Home.css'
 import Navigation from './Components/Navigation/Navigation'
 import './Components/Navigation/Navigation.css'
+import Form from './Components/Form/Form'
+import './Components/Form/Form.css'
+import List from './Components/List/List'
+import './Components/List/List.css'
 
 class App extends Component {
   state = {
     displayedComponent: 'Home'
   }
 
-  whichComponentDisplayed = () => {
-    console.log(this.state);
+  whichComponentDisplayed = (string) => {
+    console.log('changing state from: ',this.state.displayedComponent);
     this.setState({
-    displayedComponent: 'None'
+    displayedComponent: string
     }, () => {
-      console.log(this.state);
+      console.log('changed state to: ', this.state.displayedComponent);
     })
-    
   }
 
   render() {
+    let home = null;
+    let form = null;
+    let list = null;
+
+    if (this.state.displayedComponent === 'Home') {
+      home = (
+        <Home></Home>
+      )
+    }
+
+    if (this.state.displayedComponent === 'Form') {
+      form = (
+        <Form></Form>
+      )
+    }
+
+    if (this.state.displayedComponent === 'List') {
+      list = (
+        <List></List>
+      )
+    }
+
     return (
       <div className="App">
-        <Navigation click={this.whichComponentDisplayed}></Navigation>
+        <Navigation clickHome={this.whichComponentDisplayed.bind(this, 'Home')}
+                    clickForm={this.whichComponentDisplayed.bind(this, 'Form')}
+                    clickList={this.whichComponentDisplayed.bind(this, 'List')}>
+        </Navigation>
         <div className='container'>
-          { this.state.displayedComponent === 'Home' ?
-            <Home></Home> : null
-          }
+          {home}
+          {form}
+          {list}
         </div>
       </div>
     );
