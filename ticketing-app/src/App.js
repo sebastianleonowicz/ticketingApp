@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from './Home/Home'
+import Home from './Components/Home/Home'
 import './Components/Home/Home.css'
 import Navigation from './Components/Navigation/Navigation'
 import './Components/Navigation/Navigation.css'
 
 class App extends Component {
   state = {
-    loggedIn: 'false'
+    displayedComponent: 'Home'
+  }
+
+  whichComponentDisplayed = () => {
+    console.log(this.state);
+    this.setState({
+    displayedComponent: 'None'
+    }, () => {
+      console.log(this.state);
+    })
+    
   }
 
   render() {
     return (
       <div className="App">
-        <Navigation></Navigation>
-        <Home></Home>
+        <Navigation click={this.whichComponentDisplayed}></Navigation>
+        <div className='container'>
+          { this.state.displayedComponent === 'Home' ?
+            <Home></Home> : null
+          }
+        </div>
       </div>
     );
   }
