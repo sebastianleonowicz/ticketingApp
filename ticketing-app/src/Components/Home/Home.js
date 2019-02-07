@@ -1,6 +1,6 @@
 import React from 'react';
 
-const home = () => {
+const home = (props) => {
 return <div className='homeComponent'>
             <h3 className='homeHeader'>
                 Welcome to the ticketing app
@@ -11,9 +11,13 @@ return <div className='homeComponent'>
             <p className='homeParagraph'>
                 Organize your work
             </p>
-            <p className='homeParagraph'>
-                Sign In to start
-            </p>
+            <button onClick={props.clickSignIn} className='homeParagraph'>
+                Sign In 
+            </button>
+            <button className='homeParagraph'>
+                Log in to existing account
+            </button>
+
         </div>
 }
 

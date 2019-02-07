@@ -4,10 +4,14 @@ import Home from './Components/Home/Home'
 import './Components/Home/Home.css'
 import Navigation from './Components/Navigation/Navigation'
 import './Components/Navigation/Navigation.css'
-import Form from './Components/Form/Form'
-import './Components/Form/Form.css'
+import Form from './Components/TicketForm/TicketForm'
+import './Components/TicketForm/TicketForm.css'
 import List from './Components/List/List'
 import './Components/List/List.css'
+import SignInForm from './Components/SignInForm/SignInForm'
+import './Components/SignInForm/SignInForm.css'
+
+var firebase = require('firebase');
 
 class App extends Component {
   state = {
@@ -38,14 +42,45 @@ class App extends Component {
     console.log(this.state);
   }
 
+  signInUser = () => {
+    firebase.auth().createUserWithEmailAndPassword('wht@gmail.com', 'random string').catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);      
+    });
+  }
+
+  logInUser = () => {
+    firebase.auth().signInWithEmailAndPassword('wht@gmail.com', 'random string').catch(function(error) {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    })
+  }
+
+  signOut = () => {
+    firebase.auth().signOut().then(function() {
+      console.log('Signed out');
+      console.log(firebase.auth().currentUser.email);
+      // Sign-out successful.
+    }).catch(function(error) {
+      console.log(error)
+      // An error happened.
+    });
+  }
+
   render() {
     let home = null;
     let form = null;
     let list = null;
+    let signInForm = null;
 
     if (this.state.displayedComponent === 'Home') {
       home = (
-        <Home></Home>
+        <Home clickSignIn={this.whichComponentDisplayed.bind(this, 'SignInForm')}></Home>
       )
     }
 
@@ -62,7 +97,13 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'List') {
       list = (
-        <List></List>
+        <List click={this.test} click2={this.signOut}></List>
+      )
+    }
+
+    if (this.state.displayedComponent === 'SignInForm') {
+      signInForm = (        
+        <SignInForm></SignInForm>
       )
     }
 
@@ -76,6 +117,7 @@ class App extends Component {
           {home}
           {form}
           {list}
+          {signInForm}
         </div>
       </div>
     );
@@ -83,3 +125,14 @@ class App extends Component {
 }
 
 export default App;
+
+var config = {
+  apiKey: "AIzaSyB-lp34a0Nzc_dfQdO60mCHzUUwD1zMzAE",
+  authDomain: "trackeeper-ticketing-app.firebaseapp.com",
+  databaseURL: "https://trackeeper-ticketing-app.firebaseio.com",
+  projectId: "trackeeper-ticketing-app",
+  storageBucket: "trackeeper-ticketing-app.appspot.com",
+  messagingSenderId: "200313618890"
+};
+
+firebase.initializeApp(config);
