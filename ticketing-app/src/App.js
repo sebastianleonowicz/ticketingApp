@@ -10,8 +10,22 @@ import List from './Components/List/List'
 import './Components/List/List.css'
 import SignInForm from './Components/SignInForm/SignInForm'
 import './Components/SignInForm/SignInForm.css'
+import LogInForm from './Components/LogInForm/LogInForm'
+import './Components/LogInForm/LogInForm.css'
+import logInForm from './Components/LogInForm/LogInForm';
 
-var firebase = require('firebase');
+let firebase = require('firebase');
+
+let config = {
+  apiKey: "AIzaSyB-lp34a0Nzc_dfQdO60mCHzUUwD1zMzAE",
+  authDomain: "trackeeper-ticketing-app.firebaseapp.com",
+  databaseURL: "https://trackeeper-ticketing-app.firebaseio.com",
+  projectId: "trackeeper-ticketing-app",
+  storageBucket: "trackeeper-ticketing-app.appspot.com",
+  messagingSenderId: "200313618890"
+};
+
+firebase.initializeApp(config);
 
 class App extends Component {
   state = {
@@ -19,7 +33,10 @@ class App extends Component {
     title: null,
     description: null,
     accCriteria: null,
-    deadline: null
+    deadline: null,
+    loggedUser: null,
+    trySignInUser: null,
+    trySignInPassword: null
   }
 
   whichComponentDisplayed = (string) => {
@@ -42,18 +59,34 @@ class App extends Component {
     console.log(this.state);
   }
 
+  updateUserData = (event, userKey) => {
+    console.log(event.target.value);
+    this.setState({
+        [userKey]: event.target.value
+    })
+  }
+
+  checkCurrentUser = () => {
+    if (firebase.auth().currentUser !== null){
+      console.log(firebase.auth().currentUser.email);
+    }else {
+      console.log('current user is null: ', firebase.auth());
+    }
+  }
+
   signInUser = () => {
-    firebase.auth().createUserWithEmailAndPassword('wht@gmail.com', 'random string').catch(function(error) {
-      // Handle Errors here.
+    firebase.auth().createUserWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorCode);
       console.log(errorMessage);      
+    }, () => {
+      console.log('current logged in User is:', firebase.auth().currentUser.email);
     });
   }
 
   logInUser = () => {
-    firebase.auth().signInWithEmailAndPassword('wht@gmail.com', 'random string').catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword).catch(function(error) {
       let errorCode = error.code;
       let errorMessage = error.message;
       console.log(errorCode);
@@ -73,10 +106,12 @@ class App extends Component {
   }
 
   render() {
+    
     let home = null;
     let form = null;
     let list = null;
     let signInForm = null;
+    let logInForm = null;
 
     if (this.state.displayedComponent === 'Home') {
       home = (
@@ -103,7 +138,21 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'SignInForm') {
       signInForm = (        
-        <SignInForm></SignInForm>
+        <SignInForm signInUser={this.signInUser}
+                    checkCurrentUser={this.checkCurrentUser}
+                    updateSignInUser={(e) => this.updateUserData(e, 'trySignInUser')}
+                    updateSignInPassword={(e) => this.updateUserData(e, 'trySignInPassword')}
+        ></SignInForm>
+      )
+    }
+
+    if (this.state.displayedComponent === 'LogInForm') {
+      signInForm = (        
+        <LogInForm logInUser={this.logInUser}
+                    checkCurrentUser={this.checkCurrentUser}
+                    updateSignInUser={(e) => this.updateUserData(e, 'trySignInUser')}
+                    updateSignInPassword={(e) => this.updateUserData(e, 'trySignInPassword')}
+        ></LogInForm>
       )
     }
 
@@ -111,13 +160,15 @@ class App extends Component {
       <div className="App">
         <Navigation clickHome={this.whichComponentDisplayed.bind(this, 'Home')}
                     clickForm={this.whichComponentDisplayed.bind(this, 'Form')}
-                    clickList={this.whichComponentDisplayed.bind(this, 'List')}>
+                    clickList={this.whichComponentDisplayed.bind(this, 'List')}
+                    signOut={this.signOut}>
         </Navigation>
         <div className='container'>
           {home}
           {form}
           {list}
           {signInForm}
+          {logInForm}
         </div>
       </div>
     );
@@ -125,14 +176,3 @@ class App extends Component {
 }
 
 export default App;
-
-var config = {
-  apiKey: "AIzaSyB-lp34a0Nzc_dfQdO60mCHzUUwD1zMzAE",
-  authDomain: "trackeeper-ticketing-app.firebaseapp.com",
-  databaseURL: "https://trackeeper-ticketing-app.firebaseio.com",
-  projectId: "trackeeper-ticketing-app",
-  storageBucket: "trackeeper-ticketing-app.appspot.com",
-  messagingSenderId: "200313618890"
-};
-
-firebase.initializeApp(config);
