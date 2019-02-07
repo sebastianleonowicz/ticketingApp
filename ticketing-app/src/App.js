@@ -115,7 +115,9 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'Home') {
       home = (
-        <Home clickSignIn={this.whichComponentDisplayed.bind(this, 'SignInForm')}></Home>
+        <Home clickSignIn={this.whichComponentDisplayed.bind(this, 'SignInForm')}
+              clickLogIn={this.whichComponentDisplayed.bind(this, 'LogInForm')}>
+        </Home>
       )
     }
 
@@ -148,7 +150,7 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'LogInForm') {
       signInForm = (        
-        <LogInForm logInUser={this.logInUser}
+        <LogInForm  logInUser={this.logInUser}
                     checkCurrentUser={this.checkCurrentUser}
                     updateSignInUser={(e) => this.updateUserData(e, 'trySignInUser')}
                     updateSignInPassword={(e) => this.updateUserData(e, 'trySignInPassword')}

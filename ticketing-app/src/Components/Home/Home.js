@@ -14,7 +14,7 @@ return <div className='homeComponent'>
             <button onClick={props.clickSignIn} className='homeParagraph'>
                 Sign In 
             </button>
-            <button className='homeParagraph'>
+            <button onClick={props.clickLogIn} className='homeParagraph'>
                 Log in to existing account
             </button>
 
