@@ -24,8 +24,9 @@ let config = {
   storageBucket: "trackeeper-ticketing-app.appspot.com",
   messagingSenderId: "200313618890"
 };
-
 firebase.initializeApp(config);
+
+let database = firebase.database();
 
 class App extends Component {
   state = {
