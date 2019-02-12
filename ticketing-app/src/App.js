@@ -26,7 +26,7 @@ let config = {
 };
 firebase.initializeApp(config);
 
-let database = firebase.database();
+var db = firebase.firestore()
 
 class App extends Component {
   state = {
@@ -56,8 +56,20 @@ class App extends Component {
     })
   }
 
-  createTicket = (event) => {
+  createTicket = () => {
     console.log(this.state);
+    db.collection("tickets").add({
+      title: this.state.title,
+      description: this.state.description,
+      accCriteria: this.state.accCriteria,
+      deadline: this.state.deadline
+  })
+    .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+    })
+    .catch((error) => {
+        console.error("Error adding document: ", error);
+    });
   }
 
   updateUserData = (event, userKey) => {
