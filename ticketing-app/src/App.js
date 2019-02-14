@@ -30,10 +30,6 @@ let db = firebase.firestore()
 class App extends Component {
   state = {
     displayedComponent: 'Home',
-    title: null,
-    description: null,
-    accCriteria: null,
-    deadline: null,
     loggedUser: null,
     trySignInUser: null,
     trySignInPassword: null
