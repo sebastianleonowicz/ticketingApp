@@ -4,7 +4,7 @@ import Home from './Components/Home/Home'
 import './Components/Home/Home.css'
 import Navigation from './Components/Navigation/Navigation'
 import './Components/Navigation/Navigation.css'
-import Form from './Components/TicketForm/TicketForm'
+import TicketForm from './Components/TicketForm/TicketForm'
 import './Components/TicketForm/TicketForm.css'
 import List from './Components/List/List'
 import './Components/List/List.css'
@@ -12,7 +12,7 @@ import SignInForm from './Components/SignInForm/SignInForm'
 import './Components/SignInForm/SignInForm.css'
 import LogInForm from './Components/LogInForm/LogInForm'
 import './Components/LogInForm/LogInForm.css'
-import logInForm from './Components/LogInForm/LogInForm';
+import { resolve } from 'q';
 
 let firebase = require('firebase');
 
@@ -49,28 +49,28 @@ class App extends Component {
     })
   }
 
-  updateTicketData = (event, ticketKey) => {
-    console.log(event.target.value);
-    this.setState({
-        [ticketKey]: event.target.value
-    })
-  }
+  // updateTicketData = (event, ticketKey) => {
+  //   console.log(event.target.value);
+  //   this.setState({
+  //       [ticketKey]: event.target.value
+  //   })
+  // }
 
-  createTicket = () => {
-    console.log(this.state);
-    db.collection("tickets").add({
-      title: this.state.title,
-      description: this.state.description,
-      accCriteria: this.state.accCriteria,
-      deadline: this.state.deadline
-  })
-    .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-    })
-    .catch((error) => {
-        console.error("Error adding document: ", error);
-    });
-  }
+  // createTicket = () => {
+  //   console.log(this.state);
+  //   db.collection("tickets").add({
+  //     title: this.state.title,
+  //     description: this.state.description,
+  //     accCriteria: this.state.accCriteria,
+  //     deadline: this.state.deadline
+  // })
+  //   .then((docRef) => {
+  //       console.log("Document written with ID: ", docRef.id);
+  //   })
+  //   .catch((error) => {
+  //       console.error("Error adding document: ", error);
+  //   });
+  // }
 
   updateUserData = (event, userKey) => {
     console.log(event.target.value);
@@ -79,39 +79,58 @@ class App extends Component {
     })
   }
 
+  setLoggedInUser = () => {
+    this.setState({
+      loggedUser: firebase.auth().currentUser.email
+    }, () => {
+      console.log('this.state.loggedUser= ', this.state.loggedUser);
+    })
+  }
+
   checkCurrentUser = () => {
     if (firebase.auth().currentUser !== null){
       console.log(firebase.auth().currentUser.email);
+      console.log(this.state);
     }else {
       console.log('current user is null: ', firebase.auth());
     }
   }
 
   signInUser = () => {
-    firebase.auth().createUserWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword).catch(function(error) {
+      firebase.auth().createUserWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword)
+      .then(()=>{
+        console.log('signed in');
+        this.setLoggedInUser();
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);      
+      })
+  }
+
+  logInUser = () => {
+    firebase.auth().signInWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword)
+    .then(()=>{
+      console.log('signed in');
+      this.setLoggedInUser();
+    })
+    .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorCode);
       console.log(errorMessage);      
-    }, () => {
-      console.log('current logged in User is:', firebase.auth().currentUser.email);
-    });
-  }
-
-  logInUser = () => {
-    firebase.auth().signInWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword).catch(function(error) {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
     })
   }
 
   signOut = () => {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut()
+    .then(() => {
       console.log('Signed out');
       console.log(firebase.auth().currentUser.email);
       // Sign-out successful.
+      this.setLoggedInUser();
     }).catch(function(error) {
       console.log(error)
       // An error happened.
@@ -121,7 +140,7 @@ class App extends Component {
   render() {
     
     let home = null;
-    let form = null;
+    let ticketForm = null;
     let list = null;
     let signInForm = null;
     let logInForm = null;
@@ -134,14 +153,11 @@ class App extends Component {
       )
     }
 
-    if (this.state.displayedComponent === 'Form') {
-      form = (
-        <Form clickCreate={this.createTicket}
-              clickUpdateTitle={(e) => this.updateTicketData(e, 'title')}
-              clickUpdateDescription={(e) => this.updateTicketData(e, 'description')}
-              clickUpdateAccCriteria={(e) => this.updateTicketData(e, 'accCriteria')}
-              clickUpdateDeadline={(e) => this.updateTicketData(e, 'deadline')}
-        ></Form>
+    if (this.state.displayedComponent === 'TicketForm') {
+      ticketForm = (
+        <TicketForm database={window.db} 
+                    loggedUser={this.state.loggedUser}
+        ></TicketForm>
       )
     }
 
@@ -162,7 +178,7 @@ class App extends Component {
     }
 
     if (this.state.displayedComponent === 'LogInForm') {
-      signInForm = (        
+      logInForm = (        
         <LogInForm  logInUser={this.logInUser}
                     checkCurrentUser={this.checkCurrentUser}
                     updateSignInUser={(e) => this.updateUserData(e, 'trySignInUser')}
@@ -174,13 +190,13 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation clickHome={this.whichComponentDisplayed.bind(this, 'Home')}
-                    clickForm={this.whichComponentDisplayed.bind(this, 'Form')}
+                    clickForm={this.whichComponentDisplayed.bind(this, 'TicketForm')}
                     clickList={this.whichComponentDisplayed.bind(this, 'List')}
                     signOut={this.signOut}>
         </Navigation>
         <div className='container'>
           {home}
-          {form}
+          {ticketForm}
           {list}
           {signInForm}
           {logInForm}

@@ -21,3 +21,7 @@
   .navigation > ul > li > div {
     padding: 5rem 2rem;
   }
+
+  .g-signin2 {
+    visibility: hidden;
+  }
