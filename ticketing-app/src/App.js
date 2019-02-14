@@ -12,7 +12,6 @@ import SignInForm from './Components/SignInForm/SignInForm'
 import './Components/SignInForm/SignInForm.css'
 import LogInForm from './Components/LogInForm/LogInForm'
 import './Components/LogInForm/LogInForm.css'
-import { resolve } from 'q';
 
 let firebase = require('firebase');
 
@@ -26,7 +25,7 @@ let config = {
 };
 firebase.initializeApp(config);
 
-var db = firebase.firestore()
+let db = firebase.firestore()
 
 class App extends Component {
   state = {
@@ -48,29 +47,6 @@ class App extends Component {
       console.log('changed state to: ', this.state.displayedComponent);
     })
   }
-
-  // updateTicketData = (event, ticketKey) => {
-  //   console.log(event.target.value);
-  //   this.setState({
-  //       [ticketKey]: event.target.value
-  //   })
-  // }
-
-  // createTicket = () => {
-  //   console.log(this.state);
-  //   db.collection("tickets").add({
-  //     title: this.state.title,
-  //     description: this.state.description,
-  //     accCriteria: this.state.accCriteria,
-  //     deadline: this.state.deadline
-  // })
-  //   .then((docRef) => {
-  //       console.log("Document written with ID: ", docRef.id);
-  //   })
-  //   .catch((error) => {
-  //       console.error("Error adding document: ", error);
-  //   });
-  // }
 
   updateUserData = (event, userKey) => {
     console.log(event.target.value);
@@ -155,7 +131,7 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'TicketForm') {
       ticketForm = (
-        <TicketForm database={window.db} 
+        <TicketForm firebase={firebase} 
                     loggedUser={this.state.loggedUser}
         ></TicketForm>
       )
