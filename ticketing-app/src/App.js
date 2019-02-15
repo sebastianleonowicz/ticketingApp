@@ -135,7 +135,8 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'List') {
       list = (
-        <List click={this.test}>
+        <List click={this.test}
+              firebase={firebase}>
         </List>
       )
     }

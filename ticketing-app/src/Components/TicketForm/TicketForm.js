@@ -23,6 +23,7 @@ class TicketForm extends Component {
   
     createTicket = () => {
       console.log(this.state);
+      console.log(this.props.firebase.auth());
       this.db.collection("tickets").add({
         title: this.state.title,
         description: this.state.description,

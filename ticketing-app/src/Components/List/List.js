@@ -4,6 +4,15 @@ class List extends Component {
     constructor (props) {
         super(props);
         this.state = {};
+        this.db = props.firebase.firestore();
+    }
+
+    componentDidMount () {
+        this.db.collection("tickets").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(`${doc.id} => ${doc.data()}`, JSON.stringify(doc.data()));
+            });
+        });
     }
 
     render () {
