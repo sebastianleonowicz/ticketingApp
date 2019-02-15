@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const list = (props) => {
-    return  <div>
-                <p onClick={props.click}>It's a paragraph from the list</p>
-                <p onClick={props.click2}> Sign me out
+class List extends Component {
+    constructor (props) {
+        super(props);
+        this.state = {};
+    }
+
+    render () {
+        return  <div>
+                <p onClick={this.props.click}>It's a paragraph from the list</p>
+                <p onClick={this.props.click2}> Sign me out
                 </p>
             </div>
+    } 
 }
 
-export default list;
+export default List;
 

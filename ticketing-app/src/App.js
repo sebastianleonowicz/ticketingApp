@@ -135,7 +135,8 @@ class App extends Component {
 
     if (this.state.displayedComponent === 'List') {
       list = (
-        <List click={this.test} click2={this.signOut}></List>
+        <List click={this.test}>
+        </List>
       )
     }
 
