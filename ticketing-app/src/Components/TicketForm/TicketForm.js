@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components'
+import TicketFormWrapper from './TicketFormComponents/TicketFormWrapper'
 
 class TicketForm extends Component {
     constructor(props){
@@ -40,15 +41,16 @@ class TicketForm extends Component {
     }
 
     render () {
-        return <div className='formContainer'>
-                  <form className='form' action="/action_page.php">
+      
+        return <TicketFormWrapper>
+                  <form action="/action_page.php">
                       Title: <input value={this.state.title}  onChange={(e) => this.updateTicketData(e, 'title')} type="text" name="title"/>
                       Description: <input value={this.state.description}  onChange={(e) => this.updateTicketData(e, 'description')} type="text" name="description"/>
                       Acceptance Criteria: <input value={this.state.accCriteria}  onChange={(e) => this.updateTicketData(e, 'accCriteria')} type="text" name="accCriteria"/>
                       Deadline: <input value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
                   <button onClick={this.createTicket}>Submit</button>
-              </div> 
+              </TicketFormWrapper> 
     }
 }
 
