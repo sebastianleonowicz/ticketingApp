@@ -7,7 +7,8 @@
 
 html, body {
   width: 100%;
-  overflow: hidden
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
 }
 
 li {
@@ -19,7 +20,7 @@ li {
   flex-direction: row;
   height: 100vh;
   width: 100%;
-  background-color: blue;
+  /* background-color: blue; */
 }
 
 .container {
