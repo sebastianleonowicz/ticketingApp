@@ -35,6 +35,8 @@ class List extends Component {
             displayedTickets = this.state.tickets.map(ticket => {
             return  <Ticket title={JSON.parse(ticket).title}
                             description={JSON.parse(ticket).description}
+                            acceptanceCriteria={JSON.parse(ticket).acceptanceCriteria}
+                            deadline={JSON.parse(ticket).deadline}
                     ></Ticket>
             })
         }

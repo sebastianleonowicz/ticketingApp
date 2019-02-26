@@ -4,6 +4,8 @@ import TicketFormInput from './TicketFormComponents/TicketFormInput';
 import TicketFormHeader from './TicketFormComponents/TicketFormHeader';
 import TicketFormTextarea from './TicketFormComponents/TicketFormTextarea';
 import Button from '../ReusableElements/Button';
+import TicketDropdown from './TicketFormComponents/TicketDropdown';
+import TicketDropdownOption from './TicketFormComponents/TicketOption';
 
 class TicketForm extends Component {
     constructor(props){

@@ -4,7 +4,9 @@ const TicketFormTextarea = styled.textarea`
     display: block;
     width: 50rem;
     height: 20rem;
-    max-height: 20rem;
+    min-height: 7rem;
+    max-height: 40rem;
+    min-width: 50rem;
     max-width: 50rem;
     font-size: 2rem;
     font-family: 'Lato', sans-serif;
