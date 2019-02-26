@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import TicketFormWrapper from './TicketFormComponents/TicketFormWrapper';
-import TicketFormInput from './TicketFormComponents/TicketFormInput';
-import TicketFormHeader from './TicketFormComponents/TicketFormHeader';
-import TicketFormTextarea from './TicketFormComponents/TicketFormTextarea';
+import TicketFormWrapper from '../ReusableElements/TicketFormWrapper';
+import TicketFormInput from '../ReusableElements/TicketFormInput';
+import TicketFormHeader from '../ReusableElements/TicketFormHeader';
+import Textarea from '../ReusableElements/Textarea';
 import Button from '../ReusableElements/Button';
-import TicketDropdown from './TicketFormComponents/TicketDropdown';
-import TicketDropdownOption from './TicketFormComponents/TicketOption';
 
 class TicketForm extends Component {
     constructor(props){
@@ -58,7 +56,7 @@ class TicketForm extends Component {
                       <TicketFormInput placeholder='Acceptance Criteria' value={this.state.accCriteria}  onChange={(e) => this.updateTicketData(e, 'accCriteria')} type="text" name="accCriteria"/>
                      
                       <TicketFormHeader>Deadline</TicketFormHeader>
-                      <TicketFormTextarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
+                      <Textarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
                   <Button onClick={this.createTicket}>Submit</Button>
                 </TicketFormWrapper> 

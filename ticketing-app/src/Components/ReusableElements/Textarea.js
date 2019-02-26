@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const TicketFormTextarea = styled.textarea`
+const Textarea = styled.textarea`
     display: block;
     width: 50rem;
     height: 20rem;
@@ -14,4 +14,4 @@ const TicketFormTextarea = styled.textarea`
     margin: 0 auto;
     border: 1px solid lightgray;
 `
-export default TicketFormTextarea;
+export default Textarea;
