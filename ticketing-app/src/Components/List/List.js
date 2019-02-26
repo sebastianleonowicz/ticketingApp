@@ -31,7 +31,6 @@ class List extends Component {
     render () {
         let displayedTickets = [];
         if (!this.state.loading) {
-            console.log(JSON.parse(this.state.tickets[0]));
             displayedTickets = this.state.tickets.map(ticket => {
             return  <Ticket title={JSON.parse(ticket).title}
                             description={JSON.parse(ticket).description}

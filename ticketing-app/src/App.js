@@ -74,6 +74,19 @@ class App extends Component {
         console.log('signed in');
         this.setLoggedInUser();
       })
+      .then(() => {
+        if(this.state.loggedUser !== null) {
+          db.collection("users").add({
+            name: this.state.loggedUser
+          })
+          .then((docRef) => {
+              console.log("Document written with ID: ", docRef.id);
+          })
+          .catch((error) => {
+              console.error("Error adding document: ", error);
+          });
+        }
+      })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
