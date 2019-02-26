@@ -36,12 +36,13 @@ class TicketForm extends Component {
       console.log(this.state);
     }
 
-    setTicketUser = (event, key) => {
+    setTicketUser = (event) => {
       console.log('on click works');
       this.setState({
-        [key]: event.target.value
+        assignedUser: event.target.value
+      }, () => {
+        console.log(this.state);
       })
-      console.log(this.state);
     }
   
     createTicket = () => {
