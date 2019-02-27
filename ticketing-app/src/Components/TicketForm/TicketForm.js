@@ -16,16 +16,20 @@ class TicketForm extends Component {
           description: '',
           accCriteria: '',
           deadline: '',
-          loggedUser: props.loggedUser,
-          assignedUser: null
+          loggedUser: null,
+          assignedUser: null,
+          createticketAllowed: false
         }
       this.db = props.firebase.firestore();
     }
 
     componentWillMount() {
-      this.setState({
-        loggedUser: this.props.firebase.auth().currentUser.email
-      })
+      // console.log(this.props.firebase.auth().currentUser)
+      if(this.props.firebase.auth().currentUser !== null){
+        this.setState({
+          loggedUser: this.props.firebase.auth().currentUser.email
+        })
+      }
     }
 
     updateTicketData = (event, key) => {
@@ -36,7 +40,7 @@ class TicketForm extends Component {
       console.log(this.state);
     }
 
-    setTicketUser = (event) => {
+    setAssignedUser = (event) => {
       console.log('on click works');
       this.setState({
         assignedUser: event.target.value
@@ -44,9 +48,22 @@ class TicketForm extends Component {
         console.log(this.state);
       })
     }
+
+    setTicketType = (event) => {
+      console.log('on click works');
+      this.setState({
+        ticketType: event.target.value
+      }, () => {
+        console.log(this.state);
+      })
+    }
+
+    createTicketHandler() {
+      this.state.title !== '' && this.state.loggedUser !== null ? this.createTicket() : console.log('ticket doesnt pass');
+    }
   
     createTicket = () => {
-      console.log(this.state);
+      console.log('creating ticket');
       console.log(this.props.firebase.auth());
       // const loggedInUser = this.props.firebase.auth()
       this.db.collection("tickets").add({
@@ -67,18 +84,18 @@ class TicketForm extends Component {
 
     render () {
         return  <TicketFormWrapper className='ticketFormWrapper'>
-                  <TicketDropdown onChange={this.setTicketUser.bind('assignedUser')}>
+                  <TicketDropdown onChange={this.setAssignedUser}>
                     <TicketOption value='Null'>Null</TicketOption>
                     <TicketOption value='User1'>User1</TicketOption>
                     <TicketOption value='User2'>User2</TicketOption>
                     <TicketOption value='User3'>User3</TicketOption>
                   </TicketDropdown>
-                  {/* <TicketDropdown onClick={this.setTicketUser.bind()}>
+                  <TicketDropdown onClick={this.setTicketType}>
                     <TicketOption value='Epic'>Epic</TicketOption>
                     <TicketOption value='Ticket'>Ticket</TicketOption>
                     <TicketOption value='Task'>Task</TicketOption>
                     <TicketOption value='Bug'>Bug</TicketOption>
-                  </TicketDropdown> */}
+                  </TicketDropdown>
                   <form action="/action_page.php">
                       <TicketFormHeader>Title</TicketFormHeader>
                       <TicketFormInput placeholder='Title' value={this.state.title}  onChange={(e) => this.updateTicketData(e, 'title')} type="text" name="title"/>
@@ -92,7 +109,7 @@ class TicketForm extends Component {
                       <TicketFormHeader>Deadline</TicketFormHeader>
                       <Textarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
-                  <Button onClick={this.createTicket}>Submit</Button>
+                  <Button onClick={this.createTicketHandler.bind(this)}>Submit</Button>
                 </TicketFormWrapper> 
     }
 }

@@ -17,14 +17,14 @@ class List extends Component {
             querySnapshot.forEach((doc) => {
                 // console.log(`${doc.id} => ${doc.data()}`, JSON.stringify(doc.data()));
                 this.tickets.push(JSON.stringify(doc.data()));
-            })
+            });
             this.setState({
                 tickets: this.tickets
-            })
+            });
             console.log(this.state);
             this.setState({
                 loading: false
-            })
+            });
         });
     }
 
