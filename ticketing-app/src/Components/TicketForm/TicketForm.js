@@ -4,8 +4,9 @@ import TicketFormInput from '../ReusableElements/TicketFormInput';
 import TicketFormHeader from '../ReusableElements/TicketFormHeader';
 import Textarea from '../ReusableElements/Textarea';
 import Button from '../ReusableElements/Button';
-import TicketDropdown from '../ReusableElements/TicketDropdown'
-import TicketOption from '../ReusableElements/TicketOption'
+import TicketDropdown from '../ReusableElements/TicketDropdown';
+import TicketOption from '../ReusableElements/TicketOption';
+import Paragraph from '../ReusableElements/Paragraph';
 
 class TicketForm extends Component {
     constructor(props){
@@ -18,7 +19,8 @@ class TicketForm extends Component {
           deadline: '',
           loggedUser: null,
           assignedUser: null,
-          createticketAllowed: false
+          createTicketAllowed: false,
+          submitBtnClicked: false
         }
       this.db = props.firebase.firestore();
     }
@@ -59,6 +61,9 @@ class TicketForm extends Component {
     }
 
     createTicketHandler() {
+      this.setState({
+        submitBtnClicked: true
+      });
       this.state.title !== '' && this.state.loggedUser !== null ? this.createTicket() : console.log('ticket doesnt pass');
     }
   
@@ -83,6 +88,29 @@ class TicketForm extends Component {
     }
 
     render () {
+      let createTicketAllowed = null;
+      if(this.state.createTicketAllowed === false && this.state.submitBtnClicked) {
+        switch (this.state.title, this.state.submitBtnClicked) {
+          case this.state.title === '' && this.state.loggedUser === null:
+            createTicketAllowed = (
+              <Paragraph>Cannot create ticket, please log in and fill the necessary data</Paragraph>
+            )
+            console.log('not logged in, no title');
+            break;
+          case this.state.title === '':
+            createTicketAllowed = (
+              <Paragraph>Cannot create ticket, please fill in the title</Paragraph>
+            )
+            console.log('no title');
+            break;
+          case this.state.loggedUser === null:
+            createTicketAllowed = (
+              <Paragraph>Cannot create ticket, please log in</Paragraph>
+            )
+            console.log('not logged in');
+            break;
+        }
+      }
         return  <TicketFormWrapper className='ticketFormWrapper'>
                   <TicketDropdown onChange={this.setAssignedUser}>
                     <TicketOption value='Null'>Null</TicketOption>
@@ -110,6 +138,7 @@ class TicketForm extends Component {
                       <Textarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
                   <Button onClick={this.createTicketHandler.bind(this)}>Submit</Button>
+                  {createTicketAllowed}
                 </TicketFormWrapper> 
     }
 }
