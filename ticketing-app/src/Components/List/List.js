@@ -32,6 +32,7 @@ class List extends Component {
         let displayedTickets = [];
         if (!this.state.loading) {
             displayedTickets = this.state.tickets.map(ticket => {
+                // console.log(JSON.parse(ticket).ticketType);
             return  <Ticket title={JSON.parse(ticket).title}
                             description={JSON.parse(ticket).description}
                             acceptanceCriteria={JSON.parse(ticket).acceptanceCriteria}

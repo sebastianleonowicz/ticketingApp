@@ -2,6 +2,7 @@ import React from 'react';
 import ColorTypeSpan from '../ReusableElements/Texts/ColorTypeSpan';
        
 const ticket = (props) => {
+    // console.log('props', props)
     return  <div className='ticket'>
                 <span>{props.title}</span>
                 <ColorTypeSpan>{props.ticketType}</ColorTypeSpan>
