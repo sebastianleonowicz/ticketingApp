@@ -15,7 +15,7 @@ class List extends Component {
     componentDidMount () {
         this.db.collection("tickets").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                // console.log(`${doc.id} => ${doc.data()}`, JSON.stringify(doc.data()));
+                console.log(JSON.stringify(doc.data()));
                 this.tickets.push(JSON.stringify(doc.data()));
             });
             this.setState({
@@ -36,6 +36,7 @@ class List extends Component {
                             description={JSON.parse(ticket).description}
                             acceptanceCriteria={JSON.parse(ticket).acceptanceCriteria}
                             deadline={JSON.parse(ticket).deadline}
+                            ticketType={JSON.parse(ticket).ticketType}
                     ></Ticket>
             })
         }

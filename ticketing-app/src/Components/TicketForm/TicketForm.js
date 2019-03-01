@@ -20,7 +20,8 @@ class TicketForm extends Component {
           loggedUser: null,
           assignedUser: null,
           createTicketAllowed: false,
-          submitBtnClicked: false
+          submitBtnClicked: false,
+          ticketType: null
         }
       this.db = props.firebase.firestore();
     }
@@ -77,7 +78,8 @@ class TicketForm extends Component {
         accCriteria: this.state.accCriteria,
         deadline: this.state.deadline,
         user: this.state.loggedUser,
-        assignedUser: this.state.assignedUser
+        assignedUser: this.state.assignedUser,
+        ticketType: this.state.ticketType
       })
       .then((docRef) => {
           console.log("Document written with ID: ", docRef.id);
