@@ -8,6 +8,8 @@ import TicketDropdown from '../ReusableElements/TicketDropdown';
 import TicketOption from '../ReusableElements/TicketOption';
 import Paragraph from '../ReusableElements/Paragraph';
 
+const axios = require('axios');
+
 class TicketForm extends Component {
     constructor(props){
       super(props);
@@ -89,6 +91,32 @@ class TicketForm extends Component {
       });
     }
 
+    postgreSQLpost () {
+      // axios.post('localhost:5005/book/add', {
+      //   mode: 'no-cors',
+      //   firstName: 'Fred',
+      //   lastName: 'Flintstone'
+      // })
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
+      let link = 'http://localhost:5005/book/add'
+      fetch(link ,{
+        method: 'POST'
+      })
+  .then(function(response) {
+    console.log(response)
+  })
+  .then(function(myJson) {
+    console.log(JSON.stringify(myJson));
+  });
+    }
+
+
+
     render () {
       let createTicketAllowed = null;
       if(this.state.createTicketAllowed === false && this.state.submitBtnClicked) {
@@ -140,6 +168,7 @@ class TicketForm extends Component {
                       <Textarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
                   <Button onClick={this.createTicketHandler.bind(this)}>Submit</Button>
+                  <Button onClick={this.postgreSQLpost}>PostgreSQL checkout POST</Button>
                   {createTicketAllowed}
                 </TicketFormWrapper> 
     }
