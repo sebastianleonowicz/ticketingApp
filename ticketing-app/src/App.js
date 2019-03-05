@@ -69,6 +69,7 @@ class App extends Component {
   }
 
   signInUser = () => {
+      let creationDate =  new Date().toString();
       firebase.auth().createUserWithEmailAndPassword(this.state.trySignInUser, this.state.trySignInPassword)
       .then(()=>{
         console.log('signed in');
@@ -77,7 +78,8 @@ class App extends Component {
       .then(() => {
         if(this.state.loggedUser !== null) {
           db.collection("users").add({
-            name: this.state.loggedUser
+            name: this.state.loggedUser,
+            creationDate: creationDate
           })
           .then((docRef) => {
               console.log("Document written with ID: ", docRef.id);

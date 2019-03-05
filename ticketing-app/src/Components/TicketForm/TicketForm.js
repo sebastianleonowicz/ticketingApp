@@ -107,13 +107,13 @@ class TicketForm extends Component {
       fetch(link ,{
         method: 'POST'
       })
-  .then(function(response) {
-    console.log(response)
-  })
-  .then(function(myJson) {
-    console.log(JSON.stringify(myJson));
-  });
-    }
+      .then(function(response) {
+        console.log(response)
+      })
+      .then(function(myJson) {
+        console.log(JSON.stringify(myJson));
+      });
+        }
 
 
 
@@ -139,6 +139,11 @@ class TicketForm extends Component {
             )
             console.log('not logged in');
             break;
+          default:
+            createTicketAllowed = (
+              <Paragraph>There has been an error</Paragraph>
+            )
+            console.log('switch resorted o default');
         }
       }
         return  <TicketFormWrapper className='ticketFormWrapper'>
@@ -168,7 +173,7 @@ class TicketForm extends Component {
                       <Textarea placeholder='Deadline' value={this.state.deadline}  onChange={(e) => this.updateTicketData(e, 'deadline')} type="text" name="deadline"/>
                   </form>
                   <Button onClick={this.createTicketHandler.bind(this)}>Submit</Button>
-                  <Button onClick={this.postgreSQLpost}>PostgreSQL checkout POST</Button>
+                  {/* <Button onClick={this.postgreSQLpost}>PostgreSQL checkout POST</Button> */}
                   {createTicketAllowed}
                 </TicketFormWrapper> 
     }
